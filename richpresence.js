@@ -23,15 +23,25 @@
     }
 
     function getCurrentActorName() {
+      var actor = getCurrentActor();
+      if (!actor) return "Unknown";
       return game.actors.entities[1].token.name;
     }
 
     function getCurrentActorHealth() {
+      var actor = getCurrentActor();
+      if (!actor) return 0;
       return game.actors.entities[1].data.health.value;
     }
 
     function getCurrentActorMaxHealth() {
-      return game.actors.entities[1].data.health.max;
+      var actor = getCurrentActor();
+      if (!actor) return 0;
+      return actor.data.health.max;
+    }
+
+    function getCurrentActor() {
+      return game.actors.entities[0];
     }
   
     window.DiscordRichPresence.setup = () => {
