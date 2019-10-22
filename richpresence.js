@@ -25,7 +25,7 @@
     function getCurrentActorName() {
       var actor = getCurrentActor();
       if (!actor) return "Unknown";
-      return actor.token.name;
+      return actor.data.token.name;
     }
 
     function getCurrentActorHealth() {
