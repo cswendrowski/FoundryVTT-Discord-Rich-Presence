@@ -45,7 +45,7 @@
     }
 
     function getCurrentPlayers() {
-      return game.users.entities.find(function(element) { return element.active });
+      return game.users.entities.filter(element => element.active ).length;
     }
 
     function getMaxPlayers() {
