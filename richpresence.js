@@ -16,7 +16,7 @@
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
   
-      Hooks.on('init', () => {
+      Hooks.on('ready', () => {
         console.log("Forge initited!");
 
         var scenes = new Scenes();
