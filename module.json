@@ -2,7 +2,7 @@
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
   "description": "Displays current Forge status in Discord",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
     "./richpresence.js"
@@ -11,5 +11,5 @@
   "packs": [],
   "url": "https://github.com/cswendrowski/ForgeVTT-Discord-Rich-Presence",
   "manifest": "https://raw.githubusercontent.com/cswendrowski/ForgeVTT-Discord-Rich-Presence/master/module.json",
-  "download": "https://github.com/cswendrowski/ForgeVTT-Discord-Rich-Presence/raw/master/richpresence.zip"
+  "download": "https://github.com/cswendrowski/ForgeVTT-Discord-Rich-Presence/archive/master.zip"
 }
