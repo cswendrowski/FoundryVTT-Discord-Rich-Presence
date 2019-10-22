@@ -43,6 +43,14 @@
     function getCurrentActor() {
       return game.actors.entities[0];
     }
+
+    function getCurrentPlayers() {
+      return game.users.entities.find(function(element) { return element.active });
+    }
+
+    function getMaxPlayers() {
+      return game.users.entities.length;
+    }
   
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
@@ -51,6 +59,7 @@
         console.log("Forge initited!");
         console.log("Player is currently on scene " + getCurrentSceneName());
         console.log("Player is currently playing Actor " + getCurrentActorName() + " which has health " + getCurrentActorHealth() + " / " + getCurrentActorMaxHealth());
+        console.log("There are currently " + getCurrentPlayers() + " / " + getMaxPlayers() + " Players connected");
       });
     };
   })();
