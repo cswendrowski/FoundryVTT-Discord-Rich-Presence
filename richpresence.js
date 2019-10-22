@@ -18,6 +18,9 @@
   
       Hooks.on('init', () => {
         console.log("Forge initited!");
+
+        var scenes = Scenes();
+        console.log(scenes);
       });
     };
   })();
