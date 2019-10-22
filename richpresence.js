@@ -1,5 +1,7 @@
 (() => {
+    const DiscordRpcClient = require('./discordrpc/client.js')
     const version = 1;  //Current Version
+    const clientId = '180984871685062656';
   
     //Bootstrap
     if (!window.DiscordRichPresence) {
@@ -51,6 +53,8 @@
     function getMaxPlayers() {
       return game.users.entities.length;
     }
+
+
   
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
@@ -60,6 +64,28 @@
         console.log("Player is currently on scene " + getCurrentSceneName());
         console.log("Player is currently playing Actor " + getCurrentActorName() + " which has health " + getCurrentActorHealth() + " / " + getCurrentActorMaxHealth());
         console.log("There are currently " + getCurrentPlayers() + " / " + getMaxPlayers() + " Players connected");
+
+        var client = new DiscordRpcClient({ transport: 'ipc' });
+
+        async function setActivity() {
+          if (!client || !mainWindow) {
+            console.warn("Missing either client or mainWindow");
+            return;
+          }
+        
+          client.setActivity({
+            details: `Boop`,
+            state: 'Bop',
+            instance: false,
+          });
+        }
+
+        client.on('ready', () => {
+            console.log("Discord RPC ready!");
+            setActivity();
+        });
+
+        client.login({ clientId }).catch(console.error);
       });
     };
   })();
