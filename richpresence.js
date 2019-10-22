@@ -19,8 +19,11 @@
       Hooks.on('ready', () => {
         console.log("Forge initited!");
 
-        var scenes = new Scenes();
-        console.log(scenes);
+        var scenes = game.scenes.entities;
+        var firstActiveScene = scenes.find(function(element) { return element.active; });
+        var sceneName = firstActiveScene.name;
+
+        console.log("Player is currently on scene " + sceneName);
       });
     };
   })();
