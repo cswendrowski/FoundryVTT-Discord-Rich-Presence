@@ -31,13 +31,13 @@
     function getCurrentActorHealth() {
       var actor = getCurrentActor();
       if (!actor) return 0;
-      return actor.data.health.value;
+      return actor.data.data.health.value;
     }
 
     function getCurrentActorMaxHealth() {
       var actor = getCurrentActor();
       if (!actor) return 0;
-      return actor.data.health.max;
+      return actor.data.data.health.max;
     }
 
     function getCurrentActor() {

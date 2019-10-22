@@ -2,7 +2,7 @@
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
   "description": "Displays current Forge status in Discord",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
     "./richpresence.js"
