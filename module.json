@@ -2,17 +2,10 @@
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
   "description": "Displays current Forge status in Discord",
-  "version": "0.2.14",
+  "version": "0.2.13",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
-    "./richpresence.js",
-    "./discordrpc/client.js",
-    "./discordrpc/constants.js",
-    "./discordrpc/index.js",
-    "./discordrpc/util.js",
-    "./discordrpc/transports/index.js",
-    "./discordrpc/transports/ipc.js",
-    "./discordrpc/transports/websocket.js"
+    "./richpresence.js"
   ],
   "styles": [],
   "packs": [],
