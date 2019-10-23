@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28714.193
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordSdk", "DiscordSdk\DiscordSdk.csproj", "{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RichPresenceApi", "RichPresenceApi\RichPresenceApi.csproj", "{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7F3FEB9-6DFA-4BFD-8252-F16431DE7601}.Release|x86.Build.0 = Release|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{10B36BC1-D6B2-4217-A16A-47AA36DA92A8}.Release|x86.Build.0 = Release|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Debug|x86.Build.0 = Debug|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Release|x86.ActiveCfg = Release|Any CPU
+		{F534CE44-A68A-4B02-A3EA-DDF0A8515FAE}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5847B44-444A-4F60-A510-EA5094A134A5}
+	EndGlobalSection
+EndGlobal
