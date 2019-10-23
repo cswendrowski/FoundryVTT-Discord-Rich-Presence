@@ -79,15 +79,16 @@
   
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
-  
+
       Hooks.on('ready', () => {
         var url = 'http://localhost:6482/api/PlayerStatus';
+        var json = JSON.stringify(new PlayerStatus());
         var otherParams = {
           headers: {
-            "content-type": "application/json; charset=UTF-8"
+            'Content-Type': 'application/json'
           },
-          body: new PlayerStatus(),
-          method: 'post'
+          body: json,
+          method: 'POST'
         };
 
         fetch(url, otherParams)
