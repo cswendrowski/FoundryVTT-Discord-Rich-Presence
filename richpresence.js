@@ -76,12 +76,24 @@
         this.WorldUniqueId = getUniqueWorldId();
       }
     }
+
+    window.onbeforeunload = function()
+    { 
+      var url = 'http://localhost:2324/api/PlayerStatus/leave';
+      var otherParams = {
+        method: 'POST'
+      };
+
+      fetch(url, otherParams)
+        .then(res => { console.log(res) })
+        .catch(error => console.log(error));
+    }
   
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
 
       Hooks.on('ready', () => {
-        var url = 'http://localhost:6482/api/PlayerStatus';
+        var url = 'http://localhost:2324/api/PlayerStatus';
         var json = JSON.stringify(new PlayerStatus());
         var otherParams = {
           headers: {
