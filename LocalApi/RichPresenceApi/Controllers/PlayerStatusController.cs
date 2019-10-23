@@ -13,7 +13,7 @@ namespace TestApi.Controllers
         Discord _discord;
         readonly Timer _activityStatusTimeoutTimer;
         readonly Timer _discordTimer;
-        readonly TimeSpan TimeToWaitBeforeRemovingRichPresence = TimeSpan.FromSeconds(20);
+        readonly TimeSpan TimeToWaitBeforeRemovingRichPresence = TimeSpan.FromMinutes(1);
         readonly TimeSpan DiscordRefreshRate = TimeSpan.FromMilliseconds(1000 / 60);
 
         public PlayerStatusController()
