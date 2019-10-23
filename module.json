@@ -1,8 +1,8 @@
 {
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
-  "description": "Displays current Forge status in Discord",
-  "version": "0.2.13",
+  "description": "Displays current FoundryVTT status in Discord",
+  "version": "0.2.15",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
     "./richpresence.js"

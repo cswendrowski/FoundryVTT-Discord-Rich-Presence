@@ -28,17 +28,17 @@
       return actor.data.token.name;
     }
 
-    function getCurrentActorHealth() {
-      var actor = getCurrentActor();
-      if (!actor) return 0;
-      return actor.data.data.health.value;
-    }
+    // function getCurrentActorHealth() {
+    //   var actor = getCurrentActor();
+    //   if (!actor) return 0;
+    //   return actor.data.data.health.value;
+    // }
 
-    function getCurrentActorMaxHealth() {
-      var actor = getCurrentActor();
-      if (!actor) return 0;
-      return actor.data.data.health.max;
-    }
+    // function getCurrentActorMaxHealth() {
+    //   var actor = getCurrentActor();
+    //   if (!actor) return 0;
+    //   return actor.data.data.health.max;
+    // }
 
     function getCurrentActor() {
       return game.actors.entities[0];
@@ -51,15 +51,37 @@
     function getMaxPlayers() {
       return game.users.entities.length;
     }
+
+    function getCurrentPlayerIsGm() {
+      return game.user.isGM;
+    }
+
+    function getCurrentGameRemoteUrl() {
+      return game.data.ips.remote;
+    }
+
+    function getUniqueWorldId() {
+      return game.data.world.id;
+    }
+
+    class PlayerStatus {
+      constructor()
+      {
+        this.SceneName = getCurrentSceneName();
+        this.ActorName = getCurrentActorName();
+        this.CurrentPlayerCount = getCurrentPlayers();
+        this.MaxPlayerCount = getMaxPlayers();
+        this.IsGm = getCurrentPlayerIsGm();
+        this.FoundryUrl = getCurrentGameRemoteUrl();
+        this.WorldUniqueId = getUniqueWorldId();
+      }
+    }
   
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
   
       Hooks.on('ready', () => {
-        console.log("Forge initited!");
-        console.log("Player is currently on scene " + getCurrentSceneName());
-        console.log("Player is currently playing Actor " + getCurrentActorName() + " which has health " + getCurrentActorHealth() + " / " + getCurrentActorMaxHealth());
-        console.log("There are currently " + getCurrentPlayers() + " / " + getMaxPlayers() + " Players connected");
+        $.post('http://localhost:6482/api/PlayerStatus', JSON.stringify(new PlayerStatus()));
       });
     };
   })();
