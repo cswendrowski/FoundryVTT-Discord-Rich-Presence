@@ -24,7 +24,7 @@ namespace TestApi.Controllers
 
         private Discord CreateDiscord()
         {
-            return new Discord(long.Parse("635971834499563530"), (ulong)CreateFlags.Default);
+            return new Discord(long.Parse("635971834499563530"), (ulong)CreateFlags.NoRequireDiscord);
         }
 
         private void OnDiscordUpdate(object state)
