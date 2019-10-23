@@ -79,6 +79,7 @@
 
     window.onbeforeunload = function()
     { 
+      console.log("Discord Rich Presence | Unloading");
       var url = 'http://localhost:2324/api/PlayerStatus/leave';
       var otherParams = {
         method: 'POST'
@@ -87,6 +88,8 @@
       fetch(url, otherParams)
         .then(res => { console.log(res) })
         .catch(error => console.log(error));
+      
+      console.log("Discord Rich Presence | Done!");
     }
   
     window.DiscordRichPresence.setup = () => {
