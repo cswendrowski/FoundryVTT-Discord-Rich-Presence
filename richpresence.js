@@ -85,7 +85,7 @@
         method: 'POST'
       };
 
-      fetch(url, otherParams)
+      await fetch(url, otherParams)
         .then(res => { console.log(res) })
         .catch(error => console.log(error));
       
