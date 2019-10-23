@@ -77,6 +77,16 @@
       }
     }
 
+    // Gross
+    function sleep(milliseconds) {
+      var start = new Date().getTime();
+      for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+          break;
+        }
+      }
+    }
+
     window.onbeforeunload = function()
     { 
       console.log("Discord Rich Presence | Unloading");
@@ -85,9 +95,11 @@
         method: 'POST'
       };
 
-      await fetch(url, otherParams)
+      fetch(url, otherParams)
         .then(res => { console.log(res) })
         .catch(error => console.log(error));
+
+      sleep(100);
       
       console.log("Discord Rich Presence | Done!");
     }
