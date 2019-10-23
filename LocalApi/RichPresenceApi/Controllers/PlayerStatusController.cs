@@ -11,15 +11,17 @@ namespace TestApi.Controllers
     public class PlayerStatusController : ControllerBase
     {
         Discord _discord;
-        readonly Timer _timer;
+        readonly Timer _activityStatusTimeoutTimer;
+        readonly Timer _discordTimer;
         readonly TimeSpan TimeToWaitBeforeRemovingRichPresence = TimeSpan.FromSeconds(20);
+        readonly TimeSpan DiscordRefreshRate = TimeSpan.FromMilliseconds(1000 / 60);
 
         public PlayerStatusController()
         {
             _discord = CreateDiscord();
-            _timer = new Timer(OnActivityStatusTimerElapsed, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            _activityStatusTimeoutTimer = new Timer(OnActivityStatusTimerElapsed, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
 
-            var discordTimer = new Timer(OnDiscordUpdate, null, TimeSpan.FromMilliseconds(1000 / 60), TimeSpan.FromMilliseconds(1000 / 60));
+            _discordTimer = new Timer(OnDiscordUpdate, null, DiscordRefreshRate, DiscordRefreshRate);
         }
 
         private Discord CreateDiscord()
@@ -31,7 +33,11 @@ namespace TestApi.Controllers
         {
             if (_discord != null)
             {
-                _discord.RunCallbacks();
+                try
+                {
+                    _discord.RunCallbacks();
+                }
+                catch { }
             }
         }
 
@@ -40,13 +46,18 @@ namespace TestApi.Controllers
             var activityManager = _discord.GetActivityManager();
 
             activityManager.ClearActivity(result => {
-                Console.WriteLine(result);
+                Console.WriteLine("Clear activity result: " + result);
             });
 
-            _timer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            _activityStatusTimeoutTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            _discordTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+
+            Console.WriteLine("Disposing of current Discord connection to clear Playing status");
 
             _discord.Dispose();
             _discord = null;
+
+            Console.WriteLine("Done disposing!");
         }
 
         [Route("")]
@@ -56,6 +67,7 @@ namespace TestApi.Controllers
             if (_discord == null)
             {
                 _discord = CreateDiscord();
+                _discordTimer.Change(DiscordRefreshRate, DiscordRefreshRate);
             }
 
             var activity = new Activity()
@@ -80,9 +92,10 @@ namespace TestApi.Controllers
 
             _discord.GetActivityManager().UpdateActivity(activity, result =>
             {
-                _timer.Change(TimeToWaitBeforeRemovingRichPresence, Timeout.InfiniteTimeSpan);
-                Console.WriteLine(result.ToString());
+                Console.WriteLine("Set activity result: " + result);
             });
+
+            _activityStatusTimeoutTimer.Change(TimeToWaitBeforeRemovingRichPresence, Timeout.InfiniteTimeSpan);
         }
 
         [Route("leave")]
