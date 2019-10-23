@@ -81,7 +81,10 @@
       console.log(`Discord Rich Presence | Initializing v${version}`);
   
       Hooks.on('ready', () => {
-        $.post('http://localhost:6482/api/PlayerStatus', JSON.stringify(new PlayerStatus()));
+        var json = JSON.stringify(new PlayerStatus());
+        $.post('http://localhost:6482/api/PlayerStatus', json, function(data, status) {
+          console.log('Discord Rich Presence | ' + data + ' and status is ' + status);
+        });
       });
     };
   })();
