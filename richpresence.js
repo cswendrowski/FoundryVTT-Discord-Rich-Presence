@@ -87,7 +87,7 @@
             "content-type": "application/json; charset=UTF-8"
           },
           body: new PlayerStatus(),
-          method: "POST"
+          method: 'post'
         };
 
         fetch(url, otherParams)
