@@ -87,6 +87,22 @@
       }
     }
 
+    function sendPlayerStatusUpdate() {
+      var url = 'http://localhost:2324/api/PlayerStatus';
+      var json = JSON.stringify(new PlayerStatus());
+      var otherParams = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: json,
+        method: 'POST'
+      };
+
+      fetch(url, otherParams)
+        .then(res => { console.log(res) })
+        .catch(error => console.log(error));
+    }
+
     window.onbeforeunload = function()
     { 
       console.log("Discord Rich Presence | Unloading");
@@ -108,19 +124,9 @@
       console.log(`Discord Rich Presence | Initializing v${version}`);
 
       Hooks.on('ready', () => {
-        var url = 'http://localhost:2324/api/PlayerStatus';
-        var json = JSON.stringify(new PlayerStatus());
-        var otherParams = {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: json,
-          method: 'POST'
-        };
+        sendPlayerStatusUpdate();
 
-        fetch(url, otherParams)
-          .then(res => { console.log(res) })
-          .catch(error => console.log(error));
+        setInterval(function() { sendPlayerStatusUpdate(); }, 15 * 1000);
       });
     };
   })();

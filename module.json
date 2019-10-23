@@ -2,14 +2,14 @@
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
   "description": "Displays current FoundryVTT status in Discord",
-  "version": "0.2.25",
+  "version": "0.3.0",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
     "./richpresence.js"
   ],
   "styles": [],
   "packs": [],
-  "url": "https://github.com/cswendrowski/ForgeVTT-Discord-Rich-Presence",
-  "manifest": "https://raw.githubusercontent.com/cswendrowski/ForgeVTT-Discord-Rich-Presence/master/module.json",
-  "download": "https://github.com/cswendrowski/ForgeVTT-Discord-Rich-Presence/archive/master.zip"
+  "url": "https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence",
+  "manifest": "https://raw.githubusercontent.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/master/module.json",
+  "download": "https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/archive/master.zip"
 }
