@@ -41,7 +41,13 @@
     // }
 
     function getCurrentActor() {
-      return game.actors.entities[0];
+      var currentUserName = game.user.character.name;
+
+      if (!currentUserName) return "";
+    }
+
+    function getSystemName() {
+      return game.system.data.title;
     }
 
     function getCurrentPlayers() {
@@ -74,6 +80,7 @@
         this.IsGm = getCurrentPlayerIsGm();
         this.FoundryUrl = getCurrentGameRemoteUrl();
         this.WorldUniqueId = getUniqueWorldId();
+        this.SystemName = getSystemName();
       }
     }
 
