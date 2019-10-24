@@ -23,27 +23,11 @@
     }
 
     function getCurrentActorName() {
-      var actor = getCurrentActor();
-      if (!actor) return "Unknown";
-      return actor.data.token.name;
-    }
+      var currentUser = game.user.character;
 
-    // function getCurrentActorHealth() {
-    //   var actor = getCurrentActor();
-    //   if (!actor) return 0;
-    //   return actor.data.data.health.value;
-    // }
+      if (!currentUser) return "";
 
-    // function getCurrentActorMaxHealth() {
-    //   var actor = getCurrentActor();
-    //   if (!actor) return 0;
-    //   return actor.data.data.health.max;
-    // }
-
-    function getCurrentActor() {
-      var currentUserName = game.user.character.name;
-
-      if (!currentUserName) return "";
+      return currentUser.name;
     }
 
     function getSystemName() {
