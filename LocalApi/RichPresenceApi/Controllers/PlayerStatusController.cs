@@ -26,6 +26,7 @@ namespace TestApi.Controllers
 
         private Discord CreateDiscord()
         {
+            Console.WriteLine("Creating new Discord instance");
             return new Discord(long.Parse("635971834499563530"), (ulong)CreateFlags.NoRequireDiscord);
         }
 
@@ -35,7 +36,10 @@ namespace TestApi.Controllers
             {
                 try
                 {
-                    _discord.RunCallbacks();
+                    lock (_discord)
+                    {
+                        _discord.RunCallbacks();
+                    }
                 }
                 catch { }
             }
@@ -43,57 +47,67 @@ namespace TestApi.Controllers
 
         private void OnActivityStatusTimerElapsed(object state)
         {
-            var activityManager = _discord.GetActivityManager();
+            if (_discord == null) return;
 
-            activityManager.ClearActivity(result => {
-                Console.WriteLine("Clear activity result: " + result);
-            });
+            lock (_discord)
+            {
+                var activityManager = _discord.GetActivityManager();
 
-            _activityStatusTimeoutTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
-            _discordTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+                activityManager.ClearActivity(result =>
+                {
+                    Console.WriteLine("Clear activity result: " + result);
+                });
 
-            Console.WriteLine("Disposing of current Discord connection to clear Playing status");
 
-            _discord.Dispose();
-            _discord = null;
+                _activityStatusTimeoutTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+                _discordTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
 
-            Console.WriteLine("Done disposing!");
+                Console.WriteLine("Disposing of current Discord connection to clear Playing status");
+
+                _discord.Dispose();
+                _discord = null;
+
+                Console.WriteLine("Done disposing!");
+            }
         }
 
         [Route("")]
         [HttpPost]
         public void PutPlayerStatus([FromBody] PlayerStatus playerStatus)
         {
-            if (_discord == null)
+            lock (_discord)
             {
-                _discord = CreateDiscord();
-                _discordTimer.Change(DiscordRefreshRate, DiscordRefreshRate);
-            }
-
-            var activity = new Activity()
-            {
-                Details = $"Playing as {playerStatus.ActorName}",
-                State = $"Exploring {playerStatus.SceneName}",
-                Party = new ActivityParty { Id = Guid.NewGuid().ToString(), Size = new PartySize { CurrentSize = playerStatus.CurrentPlayerCount, MaxSize = playerStatus.MaxPlayerCount } },
-                Assets = new ActivityAssets
+                if (_discord == null)
                 {
-                    LargeImage = "d20",
-                    LargeText = "D20"
-                },
-                Instance = true,
-                Secrets = new ActivitySecrets { Match = playerStatus.WorldUniqueId, Join = $"{playerStatus.FoundryUrl}/join" }
-            };
+                    _discord = CreateDiscord();
+                    _discordTimer.Change(DiscordRefreshRate, DiscordRefreshRate);
+                }
 
-            if (playerStatus.IsGm)
-            {
-                activity.Details = "GMing";
-                activity.State = "";
+                var activity = new Activity()
+                {
+                    Details = $"Playing as {playerStatus.ActorName}",
+                    State = $"Exploring {playerStatus.SceneName}",
+                    Party = new ActivityParty { Id = Guid.NewGuid().ToString(), Size = new PartySize { CurrentSize = playerStatus.CurrentPlayerCount, MaxSize = playerStatus.MaxPlayerCount } },
+                    Assets = new ActivityAssets
+                    {
+                        LargeImage = "d20",
+                        LargeText = "D20"
+                    },
+                    Instance = true,
+                    Secrets = new ActivitySecrets { Match = playerStatus.WorldUniqueId, Join = $"{playerStatus.FoundryUrl}/join" }
+                };
+
+                if (playerStatus.IsGm)
+                {
+                    activity.Details = "GMing";
+                    activity.State = "";
+                }
+
+                _discord.GetActivityManager().UpdateActivity(activity, result =>
+                {
+                    Console.WriteLine("Set activity result: " + result);
+                });
             }
-
-            _discord.GetActivityManager().UpdateActivity(activity, result =>
-            {
-                Console.WriteLine("Set activity result: " + result);
-            });
 
             _activityStatusTimeoutTimer.Change(TimeToWaitBeforeRemovingRichPresence, Timeout.InfiniteTimeSpan);
         }
@@ -102,6 +116,7 @@ namespace TestApi.Controllers
         [HttpPost]
         public void LeaveGame()
         {
+            Console.WriteLine("Foundry module has initiated a leave");
             OnActivityStatusTimerElapsed(null);
         }
     }
