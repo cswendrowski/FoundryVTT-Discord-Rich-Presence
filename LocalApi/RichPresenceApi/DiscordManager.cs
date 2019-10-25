@@ -1,5 +1,6 @@
 using DiscordSdk;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using TestApi.Models;
@@ -24,6 +25,10 @@ namespace TestApi
             Console.WriteLine("Created DiscordManager " + WhoAmI);
             _discordTimer = new Timer(OnDiscordUpdate, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             CreateDiscord();
+
+            var command = "cmd.exe /c start foundryvtt-richpresence://run";
+            _discord.GetActivityManager().RegisterCommand(command);
+            Console.WriteLine("Registered command " + command);
         }
 
         public static void CreateDiscord()
@@ -32,7 +37,16 @@ namespace TestApi
 
             Console.WriteLine(WhoAmI + " - Creating new Discord instance");
             _discord = new Discord(long.Parse("635971834499563530"), (ulong)CreateFlags.Default);
+
+            _discord.GetActivityManager().OnActivityJoin += HandleActivityJoin;
+
             _discordTimer.Change(DiscordRefreshRate, DiscordRefreshRate);
+        }
+
+        private static void HandleActivityJoin(string secret)
+        {
+            Console.WriteLine("Handling Activity Join with secret " + secret);
+            Process.Start(secret);
         }
 
         public static Discord GetDiscord()
@@ -45,17 +59,13 @@ namespace TestApi
             return _discord;
         }
 
-        internal static void SetActivity(Activity activity, PlayerStatus playerStatus)
+        internal static void SetActivity(DiscordSdk.Activity activity)
         {
             if (IsCurrentlyDisposing) return;
 
             var guid = Guid.NewGuid().ToString();
 
             var activityManager = GetDiscord().GetActivityManager();
-
-            var command = $"cmd.exe /c start {playerStatus.FoundryUrl}/join";
-            activityManager.RegisterCommand(command);
-            Console.WriteLine("Registered command " + command);
 
             activityManager.UpdateActivity(activity, result =>
             {
@@ -76,7 +86,6 @@ namespace TestApi
         {
             if (_discord == null)
             {
-                Console.WriteLine("Discord instance is null while clearing! This is probably wrong");
                 return;
             };
 

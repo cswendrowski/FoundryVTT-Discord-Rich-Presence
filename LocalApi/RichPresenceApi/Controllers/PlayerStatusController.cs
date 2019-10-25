@@ -16,15 +16,15 @@ namespace TestApi.Controllers
             DiscordManager.CreateDiscord();
         }
 
-        public static byte[] GetHash(string inputString)
+        public static string GetHash(string inputString)
         {
             var algorithm = SHA256.Create();
-            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString)).ToString();
         }
 
         private string ToUf8(string strFrom)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(strFrom);
+            byte[] bytes = Encoding.Default.GetBytes(strFrom);
             return Encoding.UTF8.GetString(bytes);
         }
 
@@ -34,7 +34,7 @@ namespace TestApi.Controllers
         {
             var activity = new Activity()
             {
-                Details = ToUf8(string.IsNullOrEmpty(playerStatus.ActorName) ? $"Playing {playerStatus.SystemName}" : $"Playing as {playerStatus.ActorName}"),
+                Details = string.IsNullOrEmpty(playerStatus.ActorName) ? $"Playing {playerStatus.SystemName}" : $"Playing as {playerStatus.ActorName}",
                 State = $"Exploring {playerStatus.SceneName}",
                 Party = new ActivityParty { Id = playerStatus.WorldUniqueId, Size = new PartySize { CurrentSize = playerStatus.CurrentPlayerCount, MaxSize = playerStatus.MaxPlayerCount } },
                 Assets = new ActivityAssets
@@ -43,7 +43,7 @@ namespace TestApi.Controllers
                     LargeText = "D20"
                 },
                 Instance = false,
-                Secrets = new ActivitySecrets { Join = $"{GetHash(playerStatus.WorldUniqueId)}" }
+                Secrets = new ActivitySecrets { Join = $"{playerStatus.FoundryUrl}/join" }
             };
 
             if (playerStatus.IsGm)
@@ -52,7 +52,7 @@ namespace TestApi.Controllers
                 activity.State = $"Playing {playerStatus.SystemName}";
             }
 
-            DiscordManager.SetActivity(activity, playerStatus);
+            DiscordManager.SetActivity(activity);
         }
 
         [Route("leave")]
