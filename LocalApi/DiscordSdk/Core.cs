@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -1053,6 +1054,7 @@ namespace DiscordSdk
             Marshal.FreeHGlobal(AchievementEventsPtr);
         }
 
+        [HandleProcessCorruptedStateExceptions]
         public void RunCallbacks()
         {
             var res = Methods.RunCallbacks(MethodsPtr);

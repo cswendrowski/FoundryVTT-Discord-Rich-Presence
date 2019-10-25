@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TestApi.Models
+﻿namespace TestApi.Models
 {
     public class PlayerStatus
     {
@@ -20,5 +15,7 @@ namespace TestApi.Models
         public string FoundryUrl { get; set; } = "";
 
         public string WorldUniqueId { get; set; } = "";
+
+        public string SystemName { get; set; } = "";
     }
 }
