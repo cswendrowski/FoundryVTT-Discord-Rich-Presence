@@ -1,4 +1,4 @@
-﻿using DiscordSdk;
+using DiscordSdk;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
