@@ -22,14 +22,6 @@
       return firstActiveScene.name;
     }
 
-    function getCurrentActorName() {
-      var currentUser = game.user.character;
-
-      if (!currentUser) return "";
-
-      return currentUser.name;
-    }
-
     function getSystemName() {
       return game.system.data.title;
     }
@@ -54,14 +46,38 @@
       return game.data.world.id;
     }
 
+    function getSystemName() {
+      return game.system.data.title;
+    }
+
+    function getDetails() {
+      if (getCurrentPlayerIsGm()) {
+        return doReplacements(game.settings.get("discord-rich-presence", "whatTheGMIsCurrentlyDoingText"));
+      }
+      else if (game.user.character) {
+        return doReplacements(game.settings.get("discord-rich-presence", "whatThePlayerIsCurrentlyDoingText"))
+      }
+      else {
+        return doReplacements(game.settings.get("discord-rich-presence", "whatThePlayerIsCurrentlyDoingNoCharacterFoundText"))
+      }
+    }
+
+    function getState() {
+      if (getCurrentPlayerIsGm()) {
+        return doReplacements(game.settings.get("discord-rich-presence", "whatTheGMIsCurrentlyPlayingText"));
+      }
+      else {
+        return doReplacements(game.settings.get("discord-rich-presence", "whatThePartyIsCurrentlyDoingText"))
+      }
+    }
+
     class PlayerStatus {
       constructor()
       {
-        this.SceneName = getCurrentSceneName();
-        this.ActorName = getCurrentActorName();
+        this.Details = getDetails();
+        this.State = getState();
         this.CurrentPlayerCount = getCurrentPlayers();
         this.MaxPlayerCount = getMaxPlayers();
-        this.IsGm = getCurrentPlayerIsGm();
         this.FoundryUrl = getCurrentGameRemoteUrl();
         this.WorldUniqueId = getUniqueWorldId();
         this.SystemName = getSystemName();
@@ -94,6 +110,17 @@
         .catch(error => console.log(error));
     }
 
+    function doReplacements(input) {
+      var replacements = [];
+      var matches = input.match(/\[\[.*\]\]/g);
+      matches.forEach(x => replacements.push( { original : x, replacement : eval(x.replace("[[", "").replace("]]","")) } ));
+      console.log(replacements);
+      var replacedString = '';
+      replacements.forEach(function(x) { replacedString = originalstring.replace(x.original + '', x.replacement + ''); })
+
+      return replacedString;
+    }
+
     window.onbeforeunload = function()
     { 
       console.log("Discord Rich Presence | Unloading");
@@ -115,17 +142,63 @@
       console.log(`Discord Rich Presence | Initializing v${version}`);
 
       Hooks.on('init', () => {
-        game.settings.register('discord-rich-presence', 'gmName', {
-          name: 'How to display the GM',
-          hint: 'Storage for GM screen contents (journal entries).',
+        game.settings.register('discord-rich-presence', 'whatTheGMIsCurrentlyDoingText', {
+          name: 'The first line of text to display when the gamemaster is playing',
+          hint: 'Can use [[game.X]] macros for dynamic values',
           scope: 'world',
           config: true,
-          default: '[]',
-          type: String,    
+          default: 'GMing',
+          type: String,
+        });
+      });
+
+      Hooks.on('init', () => {
+        game.settings.register('discord-rich-presence', 'whatTheGMIsCurrentlyPlayingText', {
+          name: 'The second line of text to display when the gamemaster is playing',
+          hint: 'Can use [[game.X]] macros for dynamic values',
+          scope: 'world',
+          config: true,
+          default: 'Playing [[game.system.data.title]]',
+          type: String,
+        });
+      });
+
+      Hooks.on('init', () => {
+        game.settings.register('discord-rich-presence', 'whatThePlayerIsCurrentlyDoingText', {
+          name: 'The text to display when the User has an active Character',
+          hint: 'Can use [[game.X]] macros for dynamic values',
+          scope: 'world',
+          config: true,
+          default: 'Playing as [[game.user.character.name]]',
+          type: String,
+        });
+      });
+
+      Hooks.on('init', () => {
+        game.settings.register('discord-rich-presence', 'whatThePlayerIsCurrentlyDoingNoCharacterFoundText', {
+          name: 'The text to display when the User has no assigned Character',
+          hint: 'Can use [[game.X]] macros for dynamic values',
+          scope: 'world',
+          config: true,
+          default: 'Playing [[game.system.data.title]]',
+          type: String,
+        });
+      });
+
+      Hooks.on('init', () => {
+        game.settings.register('discord-rich-presence', 'whatThePartyIsCurrentlyDoingText', {
+          name: 'The text to display for the Party\'s current status',
+          hint: 'Can use [[game.X]] macros for dynamic values',
+          scope: 'world',
+          config: true,
+          default: 'Exploring [[game.user.data.currentSceneName]]',
+          type: String,
         });
       });
 
       Hooks.on('ready', () => {
+        game.user.data.currentSceneName = getCurrentSceneName();
+
         sendPlayerStatusUpdate();
 
         setInterval(function() { sendPlayerStatusUpdate(); }, 15 * 1000);

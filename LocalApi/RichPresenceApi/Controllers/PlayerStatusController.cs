@@ -34,8 +34,8 @@ namespace TestApi.Controllers
         {
             var activity = new Activity()
             {
-                Details = string.IsNullOrEmpty(playerStatus.ActorName) ? $"Playing {playerStatus.SystemName}" : $"Playing as {playerStatus.ActorName}",
-                State = $"Exploring {playerStatus.SceneName}",
+                Details = playerStatus.Details,
+                State = playerStatus.State,
                 Party = new ActivityParty { Id = playerStatus.WorldUniqueId, Size = new PartySize { CurrentSize = playerStatus.CurrentPlayerCount, MaxSize = playerStatus.MaxPlayerCount } },
                 Assets = new ActivityAssets
                 {
@@ -45,12 +45,6 @@ namespace TestApi.Controllers
                 Instance = false,
                 Secrets = new ActivitySecrets { Join = $"{playerStatus.FoundryUrl}/join" }
             };
-
-            if (playerStatus.IsGm)
-            {
-                activity.Details = "GMing";
-                activity.State = $"Playing {playerStatus.SystemName}";
-            }
 
             DiscordManager.SetActivity(activity);
         }

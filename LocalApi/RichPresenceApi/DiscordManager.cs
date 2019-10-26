@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using TestApi.Models;
 
 namespace TestApi
 {
@@ -27,7 +26,8 @@ namespace TestApi
             _discordTimer = new Timer(OnDiscordUpdate, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             CreateDiscord();
 
-            var command = "cmd.exe /c start foundryvtt-richpresence://run";
+            string applicationLocation = typeof(Startup).Assembly.Location.Replace(".dll", ".exe");
+            var command = applicationLocation;
             _discord.GetActivityManager().RegisterCommand(command);
             Console.WriteLine("Registered command " + command);
         }
