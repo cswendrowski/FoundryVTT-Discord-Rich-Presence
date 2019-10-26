@@ -186,7 +186,7 @@ function RegisterConfigurationOptions() {
       hint: 'Can use [[game.X]] macros for dynamic values',
       scope: 'world',
       config: true,
-      default: 'Playing [[game.system.data.title]]',
+      default: 'Setting up [[game.system.data.title]]',
       type: String,
     });
 
