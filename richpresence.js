@@ -15,7 +15,7 @@
 
     function getCurrentSceneName() {
       var scenes = game.scenes.entities;
-      var firstActiveScene = scenes.find(function(element) { return element.active; });
+      var firstActiveScene = scenes.find(function(element) { return element._view; });
 
       if (!firstActiveScene) return "Unknown";
 
