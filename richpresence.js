@@ -1,5 +1,5 @@
 (() => {
-    const version = 0.4;  //Current Version
+    const version = 1.0;  //Current Version
   
     //Bootstrap
     if (!window.DiscordRichPresence) {
