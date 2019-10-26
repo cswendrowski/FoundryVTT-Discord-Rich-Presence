@@ -117,7 +117,7 @@
       matches.forEach(x => replacements.push( { original : x, replacement : eval(x.replace("[[", "").replace("]]","")) } ));
       console.log(replacements);
       var replacedString = '';
-      replacements.forEach(function(x) { replacedString = originalstring.replace(x.original + '', x.replacement + ''); })
+      replacements.forEach(function(x) { replacedString = input.replace(x.original + '', x.replacement + ''); })
 
       return replacedString;
     }
