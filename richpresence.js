@@ -110,7 +110,7 @@
         .catch(error =>
         {
           console.log(error);
-          window.open('foundryvtt-richpresence://run');
+          window.location = 'foundryvtt-richpresence://run';
         });
     }
 
