@@ -95,6 +95,8 @@
     }
 
     function sendPlayerStatusUpdate() {
+      game.user.data.currentSceneName = getCurrentSceneName();
+
       var url = 'http://localhost:2324/api/PlayerStatus';
       var json = JSON.stringify(new PlayerStatus());
       var otherParams = {
@@ -202,8 +204,6 @@
       });
 
       Hooks.on('ready', () => {
-        game.user.data.currentSceneName = getCurrentSceneName();
-
         sendPlayerStatusUpdate();
 
         setInterval(function() { sendPlayerStatusUpdate(); }, 15 * 1000);
