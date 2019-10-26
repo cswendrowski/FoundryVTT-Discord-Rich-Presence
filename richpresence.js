@@ -114,6 +114,17 @@
     window.DiscordRichPresence.setup = () => {
       console.log(`Discord Rich Presence | Initializing v${version}`);
 
+      Hooks.on('init', () => {
+        game.settings.register('discord-rich-presence', 'gmName', {
+          name: 'How to display the GM',
+          hint: 'Storage for GM screen contents (journal entries).',
+          scope: 'world',
+          config: true,
+          default: '[]',
+          type: String,    
+        });
+      });
+
       Hooks.on('ready', () => {
         sendPlayerStatusUpdate();
 
