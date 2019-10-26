@@ -107,7 +107,11 @@
 
       fetch(url, otherParams)
         .then(res => { console.log(res) })
-        .catch(error => console.log(error));
+        .catch(error =>
+        {
+          console.log(error);
+          window.open('foundryvtt-richpresence://run');
+        });
     }
 
     function doReplacements(input) {
