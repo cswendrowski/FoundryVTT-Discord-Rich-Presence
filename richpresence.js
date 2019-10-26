@@ -113,6 +113,7 @@
     function doReplacements(input) {
       var replacements = [];
       var matches = input.match(/\[\[.*\]\]/g);
+      if (!matches) return input;
       matches.forEach(x => replacements.push( { original : x, replacement : eval(x.replace("[[", "").replace("]]","")) } ));
       console.log(replacements);
       var replacedString = '';

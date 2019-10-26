@@ -142,12 +142,14 @@ namespace TestApi
                     if (IsCurrentlyDisposing) return;
                     _discord.RunCallbacks();
 
+#if DEBUG
                     _runCnt++;
 
-                    if (_runCnt % 500 == 0)
+                    if (_runCnt % 1000 == 0)
                     {
                         Console.WriteLine("Callback: " + WhoAmI);
                     }
+#endif
                 }
                 catch (SEHException) { }
                 catch { }
