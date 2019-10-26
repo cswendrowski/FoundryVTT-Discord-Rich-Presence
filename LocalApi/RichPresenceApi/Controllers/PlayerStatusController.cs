@@ -22,7 +22,7 @@ namespace TestApi.Controllers
             return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString)).ToString();
         }
 
-        private string ToUf8(string strFrom)
+        private string ToUtf8(string strFrom)
         {
             byte[] bytes = Encoding.Default.GetBytes(strFrom);
             return Encoding.UTF8.GetString(bytes);

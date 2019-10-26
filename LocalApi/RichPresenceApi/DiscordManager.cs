@@ -125,6 +125,8 @@ namespace TestApi
 
             Console.WriteLine("Done disposing!");
             IsCurrentlyDisposing = false;
+
+            Environment.Exit(0);
         }
 
         private static void OnDiscordUpdate(object state)
