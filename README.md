@@ -1,11 +1,27 @@
 # ForgeVTT Discord Rich Presence
 
-## Instructions
+Enables Discord Rich Presence for http://foundryvtt.com/
 
-1) Download the latest release of `RichPresenceApi` from https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/releases
-2) Follow the instructions on the Release to run the API
-3) Install the module from this repo into Foundry (https://raw.githubusercontent.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/master/module.json)
-4) Launch a World and enable the module
-5) With Discord desktop running on the same machine as the API, load into the world in Foundry
-6) Your status should show up in Discord!
-7) Leave Foundry, Discord should remove your status within a minute
+## Features
+
+1) GM-only display, so you don't leak your secret plans!
+
+![](https://i.imgur.com/m6qwl7E.png)
+
+2) Player display!
+
+![](https://i.imgur.com/mNfLSKW.png)
+
+3) Configurable!
+
+![](https://i.imgur.com/AxeUTb4.png)
+
+4) Discord Invites!
+
+![](https://i.imgur.com/q851n1H.png)
+
+## Check out the Wiki for more!
+
+**Installation:** https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/wiki/Initial-Setup
+
+**FAQ:** https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/wiki/FAQ
