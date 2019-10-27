@@ -119,7 +119,7 @@
         {
           log(error);
           if (game.settings.get("discord-rich-presence", "attemptToLaunchCompanionApiOnError")) {
-            window.location = 'foundryvtt-richpresence://run';
+            window.open('foundryvtt-richpresence://run');
           }
         });
     }
