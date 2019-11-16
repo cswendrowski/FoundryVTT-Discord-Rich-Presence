@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/Foundry-v0.4.0-informational)
+
 # ForgeVTT Discord Rich Presence
 
 Enables Discord Rich Presence for http://foundryvtt.com/
