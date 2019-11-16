@@ -2,7 +2,8 @@
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
   "description": "Displays current FoundryVTT status in Discord",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "minimumCoreVersion": "0.4.0",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
     "./richpresence.js"
