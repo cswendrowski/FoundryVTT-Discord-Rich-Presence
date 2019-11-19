@@ -2,12 +2,15 @@
   "name": "discord-rich-presence",
   "title": "Discord Rich Presence",
   "description": "Displays current FoundryVTT status in Discord",
-  "version": "1.0.1",
+  "version": "2.0.0-beta1",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
-    "./richpresence.js"
+    "./richpresence.js",
+    "./reconnecting-websocket.js"
   ],
-  "styles": [],
+  "styles": [
+    "./richpresence.css"
+  ],
   "packs": [],
   "url": "https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence",
   "manifest": "https://raw.githubusercontent.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/master/module.json",

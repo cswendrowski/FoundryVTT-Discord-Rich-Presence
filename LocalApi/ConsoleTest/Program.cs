@@ -1,7 +1,11 @@
 ﻿namespace ConsoleTest
 {
     using DiscordSdk;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Formats.Png;
+    using SixLabors.ImageSharp.PixelFormats;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading;
@@ -19,7 +23,18 @@
                         // You can also use GetTexture2D within Unity.
                         // These return raw RGBA.
                         var data = imageManager.GetData(handle);
-                        Console.WriteLine("image updated {0} {1}", handle.Id, data.Length);
+
+                        var rgbaList = new List<Rgba32>();
+
+                        for (int x = 0; x < data.Length; x += 4)
+                        {
+                            rgbaList.Add(new Rgba32(data[x], data[x + 1], data[x + 2], data[x + 3]));
+                        }
+
+                        var image = Image.LoadPixelData<Rgba32>(data, 128, 128);
+
+                        //Console.WriteLine("image updated {0}", imgUrl);
+                        Console.WriteLine(image.ToBase64String<Rgba32>(PngFormat.Instance));
                     }
                     else
                     {
@@ -50,6 +65,11 @@
             activityManager.UpdateActivity(activity, result =>
             {
                 Console.WriteLine($"Result: {result}");
+
+                //discord.GetOverlayManager().OpenActivityInvite(ActivityActionType.Join, (result) =>
+                //{
+                //    Console.WriteLine("Overlay is now open!");
+                //});
             });
         }
 
@@ -99,18 +119,19 @@
             RegisterLobbyManager(lobbyManager);
 
 
-            UpdateActivity(discord);
+            //UpdateActivity(discord);
 
-            //CreateLobby(discord, lobbyManager);
 
-            /*
-            var overlayManager = GetOverlayManager();
-            overlayManager.OnOverlayLocked += locked =>
-            {
-                Console.WriteLine("Overlay Locked: {0}", locked);
-            };
-            overlayManager.SetLocked(false);
-            */
+            CreateLobby(discord, lobbyManager);
+
+            
+            //var overlayManager = discord.GetOverlayManager();
+            //overlayManager.OnOverlayLocked += locked =>
+            //{
+            //    Console.WriteLine("Overlay Locked: {0}", locked);
+            //};
+            //overlayManager.SetLocked(false);
+            
 
             //RegisterStorageManager(discord);
 
@@ -118,16 +139,16 @@
 
 
             // Pump the event look to ensure all callbacks continue to get fired.
-            TestCallbacks(discord, lobbyManager);
+            RunCallbacks(discord, lobbyManager);
 
-            //while (true)
-            //{
-            //    Thread.Sleep(10);
-            //}
+            while (true)
+            {
+                Thread.Sleep(10);
+            }
         }
 
 
-        private static void TestCallbacks(Discord discord, LobbyManager lobbyManager)
+        private static void RunCallbacks(Discord discord, LobbyManager lobbyManager)
         {
             try
             {
@@ -201,10 +222,10 @@
             var transaction = lobbyManager.GetLobbyCreateTransaction();
             transaction.SetCapacity(6);
             transaction.SetType(LobbyType.Public);
-            transaction.SetMetadata("a", "123");
-            transaction.SetMetadata("a", "456");
-            transaction.SetMetadata("b", "111");
-            transaction.SetMetadata("c", "222");
+            //transaction.SetMetadata("a", "123");
+            //transaction.SetMetadata("a", "456");
+            //transaction.SetMetadata("b", "111");
+            //transaction.SetMetadata("c", "222");
 
             lobbyManager.CreateLobby(transaction, (Result result, ref Lobby lobby) =>
             {
@@ -213,14 +234,18 @@
                     return;
                 }
 
+                var secret = lobbyManager.GetLobbyActivitySecret(lobby.Id);
+
+                Console.WriteLine("Secret: " + secret);
+
                 // Check the lobby's configuration.
                 Console.WriteLine("lobby {0} with capacity {1} and secret {2}", lobby.Id, lobby.Capacity, lobby.Secret);
 
-                // Check lobby metadata.
-                foreach (var key in new string[] { "a", "b", "c" })
-                {
-                    Console.WriteLine("{0} = {1}", key, lobbyManager.GetLobbyMetadataValue(lobby.Id, key));
-                }
+                //// Check lobby metadata.
+                //foreach (var key in new string[] { "a", "b", "c" })
+                //{
+                //    Console.WriteLine("{0} = {1}", key, lobbyManager.GetLobbyMetadataValue(lobby.Id, key));
+                //}
 
                 // Print all the members of the lobby.
                 foreach (var user in lobbyManager.GetMemberUsers(lobby.Id))
@@ -229,45 +254,50 @@
                 }
 
                 // Send everyone a message.
-                lobbyManager.SendLobbyMessage(lobby.Id, "Hello from C#!", (_) =>
-                {
-                    Console.WriteLine("sent message");
-                });
+                //lobbyManager.SendLobbyMessage(lobby.Id, "Hello from C#!", (_) =>
+                //{
+                //    Console.WriteLine("sent message");
+                //});
 
-                // Update lobby.
-                var lobbyTransaction = lobbyManager.GetLobbyUpdateTransaction(lobby.Id);
-                lobbyTransaction.SetMetadata("d", "e");
-                lobbyTransaction.SetCapacity(16);
-                lobbyManager.UpdateLobby(lobby.Id, lobbyTransaction, (_) =>
-                {
-                    Console.WriteLine("lobby has been updated");
-                });
+                //// Update lobby.
+                //var lobbyTransaction = lobbyManager.GetLobbyUpdateTransaction(lobby.Id);
+                //lobbyTransaction.SetMetadata("d", "e");
+                //lobbyTransaction.SetCapacity(16);
+                //lobbyManager.UpdateLobby(lobby.Id, lobbyTransaction, (_) =>
+                //{
+                //    Console.WriteLine("lobby has been updated");
+                //});
 
-                // Update a member.
-                var lobbyID = lobby.Id;
-                var userID = lobby.OwnerId;
-                var memberTransaction = lobbyManager.GetMemberUpdateTransaction(lobbyID, userID);
-                memberTransaction.SetMetadata("hello", "there");
-                lobbyManager.UpdateMember(lobbyID, userID, memberTransaction, (_) =>
-                {
-                    Console.WriteLine("lobby member has been updated: {0}", lobbyManager.GetMemberMetadataValue(lobbyID, userID, "hello"));
-                });
+                //// Update a member.
+                //var lobbyID = lobby.Id;
+                //var userID = lobby.OwnerId;
+                //var memberTransaction = lobbyManager.GetMemberUpdateTransaction(lobbyID, userID);
+                //memberTransaction.SetMetadata("hello", "there");
+                //lobbyManager.UpdateMember(lobbyID, userID, memberTransaction, (_) =>
+                //{
+                //    Console.WriteLine("lobby member has been updated: {0}", lobbyManager.GetMemberMetadataValue(lobbyID, userID, "hello"));
+                //});
 
-                // Search lobbies.
-                var query = lobbyManager.GetSearchQuery();
-                // Filter by a metadata value.
-                query.Filter("metadata.a", LobbySearchComparison.GreaterThan, LobbySearchCast.Number, "455");
-                query.Sort("metadata.a", LobbySearchCast.Number, "0");
-                // Only return 1 result max.
-                query.Limit(1);
-                lobbyManager.Search(query, (_) =>
-                {
-                    Console.WriteLine("search returned {0} lobbies", lobbyManager.LobbyCount());
-                    if (lobbyManager.LobbyCount() == 1)
-                    {
-                        Console.WriteLine("first lobby secret: {0}", lobbyManager.GetLobby(lobbyManager.GetLobbyId(0)).Secret);
-                    }
-                });
+                //// Search lobbies.
+                //var query = lobbyManager.GetSearchQuery();
+                //// Filter by a metadata value.
+                //query.Filter("metadata.a", LobbySearchComparison.GreaterThan, LobbySearchCast.Number, "455");
+                //query.Sort("metadata.a", LobbySearchCast.Number, "0");
+                //// Only return 1 result max.
+                //query.Limit(1);
+                //lobbyManager.Search(query, (_) =>
+                //{
+                //    Console.WriteLine("search returned {0} lobbies", lobbyManager.LobbyCount());
+                //    if (lobbyManager.LobbyCount() == 1)
+                //    {
+                //        Console.WriteLine("first lobby secret: {0}", lobbyManager.GetLobby(lobbyManager.GetLobbyId(0)).Secret);
+                //    }
+                //});
+
+                //lobbyManager.ConnectLobby(lobby.Id, secret, (Result result, ref Lobby lobby) =>
+                //{
+                //    Console.WriteLine("Connected to Lobby " + lobby.Id + " ? " + result);
+                //});
 
                 // Connect to voice chat.
                 lobbyManager.ConnectVoice(lobby.Id, (_) =>
@@ -275,9 +305,19 @@
                     Console.WriteLine("Connected to voice chat!");
                 });
 
-                // Setup networking.
-                lobbyManager.ConnectNetwork(lobby.Id);
-                lobbyManager.OpenNetworkChannel(lobby.Id, 0, true);
+                //// Setup networking.
+                //lobbyManager.ConnectNetwork(lobby.Id);
+                //lobbyManager.OpenNetworkChannel(lobby.Id, 0, true);
+
+                UpdateActivity(discord);
+
+                discord.GetOverlayManager().OpenVoiceSettings((result) =>
+                {
+                    if (result == Result.Ok)
+                    {
+                        Console.WriteLine("Overlay is open to the voice settings for your application/");
+                    }
+                });
 
             });
         }
@@ -343,26 +383,28 @@
                 var currentUser = userManager.GetCurrentUser();
                 Console.WriteLine(currentUser.Username);
                 Console.WriteLine(currentUser.Id);
+
+                userManager.GetUser(currentUser.Id, (Result result, ref User user) =>
+                {
+                    if (result == Result.Ok)
+                    {
+                        Console.WriteLine("user fetched: {0}", user.Username);
+
+                        // Request users's avatar data.
+                        // This can only be done after a user is successfully fetched.
+                        FetchAvatar(discord.GetImageManager(), user.Id);
+                    }
+                    else
+                    {
+                        Console.WriteLine("user fetch error: {0}", result);
+                    }
+                });
             };
 
             // If you store Discord user ids in a central place like a leaderboard and want to render them.
             // The users manager can be used to fetch arbitrary Discord users. This only provides basic
             // information and does not automatically update like relationships.
-            //userManager.GetUser(450795363658366976, (Result result, ref User user) =>
-            //{
-            //    if (result == Result.Ok)
-            //    {
-            //        Console.WriteLine("user fetched: {0}", user.Username);
-
-            //        // Request users's avatar data.
-            //        // This can only be done after a user is successfully fetched.
-            //        FetchAvatar(imageManager, user.Id);
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("user fetch error: {0}", result);
-            //    }
-            //});
+           
         }
 
         private static void RegisterActivityManager(Discord discord, LobbyManager lobbyManager)
