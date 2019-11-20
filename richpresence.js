@@ -117,7 +117,7 @@
   function doReplacements(input) {
     log("Discord Rich Presence | Doing replacements for " + input);
     var replacements = [];
-    var matches = input.match(/\[\[.*\]\]/g);
+    var matches = input.match(/\[\[\S*\]\]/g);
     if (!matches) return input;
     matches.forEach(x => replacements.push( { original : x, replacement : eval(x.replace("[[", "").replace("]]","")) } ));
     log(replacements);
