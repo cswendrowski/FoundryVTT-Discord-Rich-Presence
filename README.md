@@ -16,11 +16,15 @@ Enables Discord Rich Presence for http://foundryvtt.com/
 
 3) Configurable!
 
-![](https://i.imgur.com/AxeUTb4.png)
+![](./options.png)
 
 4) Discord Invites!
 
 ![](https://i.imgur.com/q851n1H.png)
+
+5) Voice Chat!
+
+<img src="foundry rich presence voice example.gif" />
 
 ## Check out the Wiki for more!
 
