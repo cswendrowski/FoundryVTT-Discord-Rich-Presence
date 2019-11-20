@@ -66,7 +66,7 @@ namespace RichPresenceApi.MessageHandlers
                 {
                     var transaction = lobbyManager.GetLobbyCreateTransaction();
                     transaction.SetCapacity((uint)voiceLobbyMessage.VoicePartySize);
-                    transaction.SetType(LobbyType.Private);
+                    transaction.SetType(LobbyType.Public);
                     transaction.SetMetadata("FoundryRemoteIp", voiceLobbyMessage.WorldUniqueIdentifier);
 
                     lobbyManager.CreateLobby(transaction, (Result result, ref Lobby createdLobby) =>

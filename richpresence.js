@@ -242,10 +242,6 @@
     };
   
     websocket.send(JSON.stringify(msg));
-  
-    game.user.setFlag("discord-rich-presence", "connected", true).then(function() {
-      ui.players.render();
-    });
   }
   
   function LeaveVoice() {
@@ -336,6 +332,10 @@
         sendPlayerStatusUpdate(websocket);
 
         setInterval(function() { sendPlayerStatusUpdate(); }, 30 * 1000);
+
+        if (game.settings.get("discord-rich-presence", "autojoinVoice")) {
+          JoinVoice();
+        }
       }
 
       window.onbeforeunload = function()
@@ -360,6 +360,22 @@
       }
 
       log(websocket);
+
+      // Thanks Atropos
+      Hooks.on("updateUser", (user, data, options, userId) => {
+        if (
+          hasProperty(data, "flags.discord-rich-presence.avatar") ||
+          hasProperty(data, "flags.discord-rich-presence.muted") ||
+          hasProperty(data, "flags.discord-rich-presence.deafened") ||
+          hasProperty(data, "flags.discord-rich-presence.connected") ||
+          hasProperty(data, "flags.discord-rich-presence.connected") ||
+          hasProperty(data, "flags.discord-rich-presence.discordId")
+        )
+        {
+          log("Another player's status updated, rerendering player list")
+          ui.players.render();
+        }
+      });
 
       Hooks.on("renderPlayerList", (app, html, data) => {
 
@@ -478,9 +494,18 @@ Hooks.on('init', () => {
     type: Boolean,
   });
 
+  game.settings.register('discord-rich-presence', 'autojoinVoice', {
+    name: 'Auto Join Voice?',
+    hint: 'Turn this on if you want to automatically connect to voice when connected to Discord',
+    scope: 'client',
+    config: true,
+    default: false,
+    type: Boolean,
+  });
+
   game.settings.register('discord-rich-presence', 'enabled', {
     name: 'Enabled for this client',
-    hint: 'Turn this on if you want to use this module!',
+    hint: '!!! Turn this on if you want to use this module!!!',
     scope: 'client',
     config: true,
     default: false,
