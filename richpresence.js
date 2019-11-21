@@ -121,8 +121,8 @@
     if (!matches) return input;
     matches.forEach(x => replacements.push( { original : x, replacement : eval(x.replace("[[", "").replace("]]","")) } ));
     log(replacements);
-    var replacedString = '';
-    replacements.forEach(function(x) { replacedString = input.replace(x.original + '', x.replacement + ''); })
+    var replacedString = input;
+    replacements.forEach(function(x) { replacedString = replacedString.replace(x.original + '', x.replacement + ''); })
 
     return replacedString;
   }
