@@ -12,6 +12,13 @@
   "styles": [
     "./richpresence.css"
   ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    }
+  ],
   "packs": [],
   "url": "https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence",
   "manifest": "https://raw.githubusercontent.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/v2/module.json",

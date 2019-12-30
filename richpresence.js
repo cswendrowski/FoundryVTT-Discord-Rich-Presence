@@ -165,7 +165,7 @@
   }
 
   function AddInCallbar(html) {
-    var toAdd = "<h3 class='discord-callbar'><svg name='Nova_CallLeave' id='DiscordLeaveVoice' class='flex-center' aria-hidden='false' width='18' height='18' viewBox='0 0 24 24'><path fill='currentColor' fill-rule='evenodd' clip-rule='evenodd' d='M21.1169 1.11603L22.8839 2.88403L19.7679 6.00003L22.8839 9.11603L21.1169 10.884L17.9999 7.76803L14.8839 10.884L13.1169 9.11603L16.2329 6.00003L13.1169 2.88403L14.8839 1.11603L17.9999 4.23203L21.1169 1.11603ZM18 22H13C6.925 22 2 17.075 2 11V6C2 5.447 2.448 5 3 5H7C7.553 5 8 5.447 8 6V10C8 10.553 7.553 11 7 11H6C6.063 14.938 9 18 13 18V17C13 16.447 13.447 16 14 16H18C18.553 16 19 16.447 19 17V21C19 21.553 18.553 22 18 22Z'></path></svg><div style='color: #43b581;' class='flex-center' >Voice Connected</div>";
+    var toAdd = "<h3 class='discord-callbar'><svg name='Nova_CallLeave' id='DiscordLeaveVoice' class='flex-center' aria-hidden='false' width='18' height='18' viewBox='0 0 24 24'><path fill='currentColor' fill-rule='evenodd' clip-rule='evenodd' d='M21.1169 1.11603L22.8839 2.88403L19.7679 6.00003L22.8839 9.11603L21.1169 10.884L17.9999 7.76803L14.8839 10.884L13.1169 9.11603L16.2329 6.00003L13.1169 2.88403L14.8839 1.11603L17.9999 4.23203L21.1169 1.11603ZM18 22H13C6.925 22 2 17.075 2 11V6C2 5.447 2.448 5 3 5H7C7.553 5 8 5.447 8 6V10C8 10.553 7.553 11 7 11H6C6.063 14.938 9 18 13 18V17C13 16.447 13.447 16 14 16H18C18.553 16 19 16.447 19 17V21C19 21.553 18.553 22 18 22Z'></path></svg><div style='color: #43b581;' class='flex-center' >" + game.i18n.localize("DRP.VoiceConnected") + "</div>";
     toAdd += "<div class='discord-voice-options'>";
     toAdd += Mute();
     toAdd += Deafen();
@@ -179,7 +179,7 @@
   }
   
   function AddOutOfCallbar(html) {
-    html.find("#player-list").after('<h3 class="discord-callbar"><svg x="0" y="0" name="Nova_CallJoin" id="DiscordJoinVoice" class="flex-center" aria-hidden="false" width="18" height="18" viewBox="0 0 24 24" style="flex: 0 0 30px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M11 5V3C16.515 3 21 7.486 21 13H19C19 8.589 15.411 5 11 5ZM17 13H15C15 10.795 13.206 9 11 9V7C14.309 7 17 9.691 17 13ZM11 11V13H13C13 11.896 12.105 11 11 11ZM14 16H18C18.553 16 19 16.447 19 17V21C19 21.553 18.553 22 18 22H13C6.925 22 2 17.075 2 11V6C2 5.447 2.448 5 3 5H7C7.553 5 8 5.447 8 6V10C8 10.553 7.553 11 7 11H6C6.063 14.938 9 18 13 18V17C13 16.447 13.447 16 14 16Z"></path></svg><div style="color: #AAA; flex: 1 0 auto;" class="flex-center">Connect to Voice</div></h3>');
+    html.find("#player-list").after('<h3 class="discord-callbar"><svg x="0" y="0" name="Nova_CallJoin" id="DiscordJoinVoice" class="flex-center" aria-hidden="false" width="18" height="18" viewBox="0 0 24 24" style="flex: 0 0 30px;"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M11 5V3C16.515 3 21 7.486 21 13H19C19 8.589 15.411 5 11 5ZM17 13H15C15 10.795 13.206 9 11 9V7C14.309 7 17 9.691 17 13ZM11 11V13H13C13 11.896 12.105 11 11 11ZM14 16H18C18.553 16 19 16.447 19 17V21C19 21.553 18.553 22 18 22H13C6.925 22 2 17.075 2 11V6C2 5.447 2.448 5 3 5H7C7.553 5 8 5.447 8 6V10C8 10.553 7.553 11 7 11H6C6.063 14.938 9 18 13 18V17C13 16.447 13.447 16 14 16Z"></path></svg><div style="color: #AAA; flex: 1 0 auto;" class="flex-center">' + game.i18n.localize("DRP.ConnectToVoice") + '</div></h3>');
     $("#DiscordJoinVoice").click(function() { JoinVoice() });
   }
 
@@ -432,8 +432,8 @@ function RegisterConfigurationOptions() {
 Hooks.on('init', () => {
 
   game.settings.register('discord-rich-presence', 'whatTheGMIsCurrentlyDoingText', {
-    name: 'The first line of text to display when the gamemaster is playing',
-    hint: 'Can use [[game.X]] syntax for dynamic values',
+    name: game.i18n.localize("DRP.SETTINGS.WhatTheGMIsCurrentlyDoingName"),
+    hint: game.i18n.localize("DRP.SETTINGS.DynamicValuesHint"),
     scope: 'world',
     config: true,
     default: 'GMing',
@@ -441,8 +441,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'whatTheGMIsCurrentlyPlayingText', {
-    name: 'The second line of text to display when the gamemaster is playing',
-    hint: 'Can use [[game.X]] syntax for dynamic values',
+    name: game.i18n.localize("DRP.SETTINGS.WhatTheGMIsCurrentlyPlayingName"),
+    hint: game.i18n.localize("DRP.SETTINGS.DynamicValuesHint"),
     scope: 'world',
     config: true,
     default: 'Setting up [[game.system.data.title]]',
@@ -450,8 +450,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'whatThePlayerIsCurrentlyDoingText', {
-    name: 'The text to display when the User has an active Character',
-    hint: 'Can use [[game.X]] syntax for dynamic values',
+    name: game.i18n.localize("DRP.SETTINGS.WhatThePlayerIsCurrentlyDoingName"),
+    hint: game.i18n.localize("DRP.SETTINGS.DynamicValuesHint"),
     scope: 'world',
     config: true,
     default: 'Playing as [[game.user.character.name]]',
@@ -459,8 +459,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'whatThePlayerIsCurrentlyDoingNoCharacterFoundText', {
-    name: 'The text to display when the User has no assigned Character',
-    hint: 'Can use [[game.X]] syntax for dynamic values',
+    name: game.i18n.localize("DRP.SETTINGS.WhatThePlayerIsCurrentlyDoingNoCharacterFoundName"),
+    hint: game.i18n.localize("DRP.SETTINGS.DynamicValuesHint"),
     scope: 'world',
     config: true,
     default: 'Playing [[game.system.data.title]]',
@@ -468,8 +468,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'whatThePartyIsCurrentlyDoingText', {
-    name: 'The text to display for the Party\'s current status',
-    hint: 'Can use [[game.X]] syntax for dynamic values',
+    name: game.i18n.localize("DRP.SETTINGS.WhatThePartyIsCurrentlyDoingName"),
+    hint: game.i18n.localize("DRP.SETTINGS.DynamicValuesHint"),
     scope: 'world',
     config: true,
     default: 'Exploring [[game.user.data.currentSceneName]]',
@@ -477,8 +477,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'showDebugLogs', {
-    name: 'Show debug logs?',
-    hint: 'Turn this on for bug reports',
+    name: game.i18n.localize("DRP.SETTINGS.ShowDebugLogsName"),
+    hint: game.i18n.localize("DRP.SETTINGS.ShowDebugLogsHint"),
     scope: 'world',
     config: true,
     default: false,
@@ -486,8 +486,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'handleLocalApiLifecycle', {
-    name: 'Should the module handle the startup / shutdown of the companion api?',
-    hint: 'Turn this off if you are always running the API locally (say, as a background service or startup service)',
+    name: game.i18n.localize("DRP.SETTINGS.HandleLocalApiLifecycleName"),
+    hint: game.i18n.localize("DRP.SETTINGS.HandleLocalApiLifecycleHint"),
     scope: 'client',
     config: true,
     default: true,
@@ -495,8 +495,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'autojoinVoice', {
-    name: 'Auto Join Voice?',
-    hint: 'Turn this on if you want to automatically connect to voice when connected to Discord',
+    name: game.i18n.localize("DRP.SETTINGS.AutojoinVoiceName"),
+    hint: game.i18n.localize("DRP.SETTINGS.AutojoinVoiceHint"),
     scope: 'client',
     config: true,
     default: false,
@@ -504,8 +504,8 @@ Hooks.on('init', () => {
   });
 
   game.settings.register('discord-rich-presence', 'enabled', {
-    name: 'Enabled for this client',
-    hint: '!!! Turn this on if you want to use this module!!!',
+    name: game.i18n.localize("DRP.SETTINGS.EnabledName"),
+    hint: game.i18n.localize("DRP.SETTINGS.EnabledHint"),
     scope: 'client',
     config: true,
     default: false,
