@@ -1,7 +1,7 @@
 (() => {
   const version = 2.0;  //Current Version
   var websocket = null;
-  var apiOpenLastRetry = Date.now();
+  var apiOpenLastRetry = Date.now() - (1000 * 60);
 
   //Bootstrap
   if (!window.DiscordRichPresence) {
