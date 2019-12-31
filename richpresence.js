@@ -18,7 +18,7 @@
     var scenes = game.scenes.entities;
     var firstActiveScene = scenes.find(function(element) { return element._view; });
 
-    if (!firstActiveScene) return "Unknown";
+    if (!firstActiveScene) return game.i18n.localize("DRP.Unknown");
 
     return firstActiveScene.name;
   }
