@@ -1,0 +1,20 @@
+{
+    "DRP.ConnectToVoice": "Connect to Voice",
+    "DRP.VoiceConnected": "Voice Connected",
+    "DRP.Unknown": "Unknown",
+
+    "DRP.SETTINGS.DynamicValuesHint": "Can use [[game.X]] syntax for dynamic values",   
+    "DRP.SETTINGS.WhatTheGMIsCurrentlyDoingName": "The first line of text to display when the gamemaster is playing",
+    "DRP.SETTINGS.WhatTheGMIsCurrentlyPlayingName": "The second line of text to display when the gamemaster is playing",
+    "DRP.SETTINGS.WhatThePlayerIsCurrentlyDoingName": "The text to display when the User has an active Character",
+    "DRP.SETTINGS.WhatThePlayerIsCurrentlyDoingNoCharacterFoundName": "The text to display when the User has no assigned Character",
+    "DRP.SETTINGS.WhatThePartyIsCurrentlyDoingName": "The text to display for the Party's current status",
+    "DRP.SETTINGS.ShowDebugLogsName": "Show debug logs?",
+    "DRP.SETTINGS.ShowDebugLogsHint": "Turn this on for bug reports",
+    "DRP.SETTINGS.HandleLocalApiLifecycleName": "Should the module handle the startup / shutdown of the companion api?",
+    "DRP.SETTINGS.HandleLocalApiLifecycleHint": "Turn this off if you are always running the API locally (say, as a background service or startup service)",
+    "DRP.SETTINGS.AutojoinVoiceName": "Auto Join Voice?",
+    "DRP.SETTINGS.AutojoinVoiceHint": "Turn this on if you want to automatically connect to voice when connected to Discord",
+    "DRP.SETTINGS.EnabledName": "Enabled for this client",
+    "DRP.SETTINGS.EnabledHint": "!!! Turn this on if you want to use this module!!!"
+}

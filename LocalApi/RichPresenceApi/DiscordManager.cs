@@ -3,8 +3,9 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
+using TestApi;
 
-namespace TestApi
+namespace RichPresenceApi
 {
     public static class DiscordManager
     {
@@ -12,8 +13,9 @@ namespace TestApi
         static Discord _discord;
         static Timer _discordTimer;
         static int _runCnt = 0;
+        static object Lock = new object();
 
-        static TimeSpan DiscordRefreshRate = TimeSpan.FromMilliseconds(1000 / 60);
+        static TimeSpan DiscordRefreshRate = TimeSpan.FromMilliseconds(1000 / 50);
         static readonly TimeSpan TimeToWaitBeforeRemovingRichPresence = TimeSpan.FromMinutes(1);
 
         public static bool IsCurrentlyDisposing { get; set; } = false;
@@ -36,24 +38,35 @@ namespace TestApi
         {
             if (_discord != null) return;
 
-            Console.WriteLine(WhoAmI + " - Creating new Discord instance");
-            _discord = new Discord(long.Parse("635971834499563530"), (ulong)CreateFlags.Default);
-
-            _discord.SetLogHook(LogLevel.Debug, LogDiscord);
-
-            var activityManager = _discord.GetActivityManager();
-            activityManager.OnActivityJoin += (secret) =>
+            lock (Lock)
             {
-                Console.WriteLine("Handling Activity Join with secret " + secret);
-                var process = Process.Start(new ProcessStartInfo("cmd", $"/c start {secret}") { CreateNoWindow = true });
-                Console.WriteLine($"{process.ProcessName}");
-            };
-            activityManager.OnActivityInvite += HandleActivityInvite;
-            activityManager.OnActivityJoinRequest += HandleActivityJoinRequest;
+                Console.WriteLine(WhoAmI + " - Creating new Discord instance");
+                _discord = new Discord(long.Parse("635971834499563530"), (ulong)CreateFlags.Default);
 
-            Console.WriteLine("Registered event handlers");
+                _discord.SetLogHook(LogLevel.Debug, LogDiscord);
 
-            _discordTimer.Change(DiscordRefreshRate, DiscordRefreshRate);
+                var activityManager = _discord.GetActivityManager();
+                activityManager.OnActivityJoin += (secret) =>
+                {
+                    Console.WriteLine("Handling Activity Join with secret " + secret);
+                    var process = Process.Start(new ProcessStartInfo("cmd", $"/c start {secret}") { CreateNoWindow = true });
+                    Console.WriteLine($"{process.ProcessName}");
+                };
+                activityManager.OnActivityInvite += HandleActivityInvite;
+                activityManager.OnActivityJoinRequest += HandleActivityJoinRequest;
+
+                var lobbyManager = _discord.GetLobbyManager();
+                lobbyManager.OnMemberUpdate += HandleMemberUpdate;
+
+                Console.WriteLine("Registered event handlers");
+
+                _discordTimer.Change(DiscordRefreshRate, DiscordRefreshRate);
+            }
+        }
+
+        private static void HandleMemberUpdate(long lobbyId, long userId)
+        {
+            Console.WriteLine($"{lobbyId} has User {userId} update");
         }
 
         private static void LogDiscord(LogLevel level, string message)
@@ -89,10 +102,13 @@ namespace TestApi
 
             var activityManager = GetDiscord().GetActivityManager();
 
-            activityManager.UpdateActivity(activity, result =>
+            lock (Lock)
             {
-                Console.WriteLine(guid + " - Set activity result: " + result);
-            });
+                activityManager.UpdateActivity(activity, result =>
+                {
+                    Console.WriteLine(guid + " - Set activity result: " + result);
+                });
+            }
 
             RecentlyGotUpdate = true;
             LastUpdated = DateTimeOffset.UtcNow;
@@ -113,20 +129,23 @@ namespace TestApi
 
             IsCurrentlyDisposing = true;
 
-            _discord.GetActivityManager().ClearActivity(result =>
+            lock (Lock)
             {
-                Console.WriteLine("Clear activity: " + result);
-            });
+                _discord.GetActivityManager().ClearActivity(result =>
+                {
+                    Console.WriteLine("Clear activity: " + result);
+                });
 
-            Console.WriteLine("Disposing of current Discord connection to clear Playing status");
+                Console.WriteLine("Disposing of current Discord connection to clear Playing status");
 
-            _discord.Dispose();
-            _discord = null;
-
+                _discord.Dispose();
+                _discord = null;
+            }
+            
             Console.WriteLine("Done disposing!");
             IsCurrentlyDisposing = false;
 
-            Environment.Exit(0);
+            //Environment.Exit(0);
         }
 
         private static void OnDiscordUpdate(object state)
@@ -142,7 +161,11 @@ namespace TestApi
                 try
                 {
                     if (IsCurrentlyDisposing) return;
-                    _discord.RunCallbacks();
+
+                    lock (Lock)
+                    {
+                        _discord.RunCallbacks();
+                    }
 
 #if DEBUG
                     _runCnt++;
