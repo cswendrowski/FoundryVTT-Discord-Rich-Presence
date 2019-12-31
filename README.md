@@ -4,7 +4,7 @@
 
 # FoundryVTT Discord Rich Presence
 
-Enables Discord Rich Presence for http://foundryvtt.com/
+Enables Discord Rich Presence and Voice Chat for http://foundryvtt.com/
 
 
 ## Check out the Wiki!
