@@ -1,6 +1,7 @@
 (() => {
   const version = 2.0;  //Current Version
   var websocket = null;
+  var apiOpenLastRetry = Date.now();
 
   //Bootstrap
   if (!window.DiscordRichPresence) {
@@ -312,7 +313,11 @@
       websocket.onerror = function (event) {
         LeaveVoice();
         if (game.settings.get("discord-rich-presence", "handleLocalApiLifecycle")) {
-          window.open('foundryvtt-richpresence://run');
+          if (Date.now() - apiOpenLastRetry >= 1000 * 30)
+          {
+            window.open('foundryvtt-richpresence://run');
+            apiOpenLastRetry = Date.now();
+          }
         }
       }
 
