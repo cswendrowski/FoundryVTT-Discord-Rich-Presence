@@ -5,6 +5,14 @@
 
 Enables Discord Rich Presence for http://foundryvtt.com/
 
+
+## Check out the Wiki!
+
+**Installation:** https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/wiki/Initial-Setup
+
+**FAQ:** https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/wiki/FAQ
+
+
 ## Features
 
 1) GM-only display, so you don't leak your secret plans!
@@ -27,8 +35,3 @@ Enables Discord Rich Presence for http://foundryvtt.com/
 
 <img src="foundry rich presence voice example.gif" />
 
-## Check out the Wiki for more!
-
-**Installation:** https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/wiki/Initial-Setup
-
-**FAQ:** https://github.com/cswendrowski/FoundryVTT-Discord-Rich-Presence/wiki/FAQ
