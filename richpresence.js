@@ -41,7 +41,7 @@
   }
 
   function getCurrentGameRemoteUrl() {
-    return game.data.ips.remote;
+    return game.data.addresses.remote;
   }
 
   function getUniqueWorldId() {
@@ -372,7 +372,6 @@
           hasProperty(data, "flags.discord-rich-presence.avatar") ||
           hasProperty(data, "flags.discord-rich-presence.muted") ||
           hasProperty(data, "flags.discord-rich-presence.deafened") ||
-          hasProperty(data, "flags.discord-rich-presence.connected") ||
           hasProperty(data, "flags.discord-rich-presence.connected") ||
           hasProperty(data, "flags.discord-rich-presence.discordId")
         )
