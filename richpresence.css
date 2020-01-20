@@ -74,3 +74,11 @@
 #players {
     width: 250px;
 }
+
+#hotbar {
+    left: 275px;
+}
+
+.archmage-escalation {
+    left: 275px;
+}
