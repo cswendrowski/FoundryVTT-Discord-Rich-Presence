@@ -234,7 +234,7 @@
     var payload = {
       ShouldConnect: true,
       VoicePartySize: getMaxPlayers(),
-      WorldUniqueIdentifier: game.data.ips.remote
+      WorldUniqueIdentifier: game.data.addresses.remote
     };
   
     var msg = {
