@@ -3,7 +3,7 @@
   "title": "Discord Rich Presence",
   "description": "Displays current FoundryVTT status in Discord and enables Discord Voice Chat in Foundry",
   "version": "2.1.3",
-  "minimumCoreVersion": "0.4.4",
+  "minimumCoreVersion": "0.5.4",
   "author": "Cody Swendrowski <cody@swendrowski.us>",
   "scripts": [
     "./richpresence.js",
