@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/Foundry-v0.7.5-informational)
 ![](https://img.shields.io/badge/Foundry-v0.5.4-informational)
 ![](https://img.shields.io/badge/Foundry-v0.4.4-informational)
 ![](https://img.shields.io/badge/Foundry-v0.4.0-informational)
