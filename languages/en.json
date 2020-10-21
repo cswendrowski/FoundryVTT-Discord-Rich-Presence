@@ -16,5 +16,7 @@
     "DRP.SETTINGS.AutojoinVoiceName": "Auto Join Voice?",
     "DRP.SETTINGS.AutojoinVoiceHint": "Turn this on if you want to automatically connect to voice when connected to Discord",
     "DRP.SETTINGS.EnabledName": "Enabled for this client",
-    "DRP.SETTINGS.EnabledHint": "!!! Turn this on if you want to use this module!!!"
+    "DRP.SETTINGS.EnabledHint": "!!! Turn this on if you want to use this module!!!",
+    "DRP.SETTINGS.EnableVoiceName": "Enable voice chat for this client",
+    "DRP.SETTINGS.EnableVoiceHint": "Default: True"
 }

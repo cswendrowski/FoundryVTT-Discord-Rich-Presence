@@ -13,6 +13,18 @@ namespace TestApi
 
         public static void Main(string[] args)
         {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                RegisterWindowsCustomUriScheme();
+            }
+
+            CreateHostBuilder(args)
+                .Build()
+                .Run();
+        }
+
+        private static void RegisterWindowsCustomUriScheme()
+        {
             try
             {
                 using (var key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Classes\\" + UriScheme))
@@ -38,10 +50,6 @@ namespace TestApi
             {
                 Console.WriteLine("Couldn't register URI scheme due to: " + e.Message);
             }
-
-            CreateHostBuilder(args)
-                .Build()
-                .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

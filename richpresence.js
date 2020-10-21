@@ -383,48 +383,51 @@
 
       Hooks.on("renderPlayerList", (app, html, data) => {
 
-        data.users.forEach((user) => {
+        if (game.settings.get("discord-rich-presence", "enableVoice")) {
 
-          var avatar = user.getFlag("discord-rich-presence", "avatar");
-          var muted = user.getFlag("discord-rich-presence", "muted");
-          var deafened = user.getFlag("discord-rich-presence", "deafened");
-          var connected = user.getFlag("discord-rich-presence", "connected");
-          var discordId = user.getFlag("discord-rich-presence", "discordId");
+          data.users.forEach((user) => {
 
-          var playerLi = html.find("[data-user-id='" + user.id + "']");
-          $(playerLi).attr("data-discordId", '' + discordId);
+            var avatar = user.getFlag("discord-rich-presence", "avatar");
+            var muted = user.getFlag("discord-rich-presence", "muted");
+            var deafened = user.getFlag("discord-rich-presence", "deafened");
+            var connected = user.getFlag("discord-rich-presence", "connected");
+            var discordId = user.getFlag("discord-rich-presence", "discordId");
 
-          if (connected) {
+            var playerLi = html.find("[data-user-id='" + user.id + "']");
+            $(playerLi).attr("data-discordId", '' + discordId);
 
-            var playerActive =  playerLi.find(".player-active");
+            if (connected) {
 
-            playerActive.each((i, span) => {
-              $(span).replaceWith("<img class='discord-avatar' src='" + avatar + "' />")
-            });
-            
-            playerLi.find(".player-name").each((i, span) => {
-              var muteInfo = "<div class='discord-muteinfo'>";
+              var playerActive =  playerLi.find(".player-active");
 
-              if (muted) {
-                muteInfo = muteInfo + Muted();
-              }
+              playerActive.each((i, span) => {
+                $(span).replaceWith("<img class='discord-avatar' src='" + avatar + "' />")
+              });
+              
+              playerLi.find(".player-name").each((i, span) => {
+                var muteInfo = "<div class='discord-muteinfo'>";
 
-              if (deafened) {
-                muteInfo = muteInfo + Deafened();
-              }
+                if (muted) {
+                  muteInfo = muteInfo + Muted();
+                }
 
-              $(span).after(muteInfo + "</div>");
-            });
+                if (deafened) {
+                  muteInfo = muteInfo + Deafened();
+                }
+
+                $(span).after(muteInfo + "</div>");
+              });
+            }
+          });
+
+          if (game.user.getFlag("discord-rich-presence", "connected"))
+          {
+            AddInCallbar(html);
           }
-        });
-
-        if (game.user.getFlag("discord-rich-presence", "connected"))
-        {
-          AddInCallbar(html);
-        }
-        else
-        {
-          AddOutOfCallbar(html);
+          else
+          {
+            AddOutOfCallbar(html);
+          }
         }
       });
     });
@@ -513,6 +516,15 @@ Hooks.on('init', () => {
     scope: 'client',
     config: true,
     default: false,
+    type: Boolean,
+  });
+
+  game.settings.register('discord-rich-presence', 'enableVoice', {
+    name: game.i18n.localize("DRP.SETTINGS.EnableVoiceName"),
+    hint: game.i18n.localize("DRP.SETTINGS.EnableVoiceHint"),
+    scope: 'client',
+    config: true,
+    default: true,
     type: Boolean,
   });
 });
